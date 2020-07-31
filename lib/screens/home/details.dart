@@ -1,140 +1,121 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:user_crud/models/user.dart';
-import 'package:user_crud/models/userdata.dart';
+import 'package:user_crud/bloc/provider_bloc.dart';
+import 'package:user_crud/bloc/state.dart';
 
-
-class Details extends StatefulWidget {
-
-     final String image;
-     final UserData obj;
-
-    String _newName;
-    String _newOccupation;
-
-
-    Details({this.image, this.obj});
-
+class Details extends StatelessWidget {
   @override
-  _DetailsState createState() => _DetailsState(image: image, obj: obj);
-
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Stack(
+        children: <Widget>[TheImage(), BottomSheet()],
+      ),
+    );
+  }
 }
 
-class _DetailsState extends State<Details> {
+class TheImage extends StatefulWidget {
+  @override
+  _TheImageState createState() => _TheImageState();
+}
 
-  String image;
-final UserData obj;
-
-
-  _DetailsState({this.image, this.obj});
-
+class _TheImageState extends State<TheImage>
+    with SingleTickerProviderStateMixin {
+  AnimationController controller;
 
   @override
+  void initState() {
+    controller =
+        AnimationController(duration: Duration(seconds: 2), vsync: this);
+    super.initState();
+  }
 
- 
-  
+  forward() {
+    controller.forward();
+  }
+
+  reverse() {
+    controller.reverse();
+  }
+
+  @override
   Widget build(BuildContext context) {
-
-
-final userId = Provider.of<User>(context);
-   
-    return Scaffold(
-      body: Container(
-        color: Colors.white,
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-
-        child: Column(
-          children: <Widget>[
-
-            Stack(
-              children: <Widget>[
-
-                  Container(
-              height: 400,
-              width: double.infinity,
-              
-              child: Hero(
-        tag: 'tag',
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: Image(
-            image: AssetImage(image),
-            fit: BoxFit.cover,
-          ),
-        )
-      ),
-            ),
-
-          
-
-            Positioned(
-              top: 30,
-              left: 10,
-              child: GestureDetector(
-                onTap: (){
-                  Navigator.pop(context);
-                },
+    return Positioned(
+      top: 0,
+          child: StreamBuilder(
+          initialData: theProvider.isAnimating,
+          builder: (context, snapshot) {
+            snapshot.data ? forward() : reverse();
+            return ScaleTransition(
+              scale: controller,
+             
                 child: Container(
-                  child: Icon(Icons.arrow_back, color: Colors.grey),
+                  height: 270,
+                  width: MediaQuery.of(context).size.width,
+                  color: Colors.yellow,
                 ),
-              ),
-            )
-
-              ],
-    ),
-
-    SizedBox(height: 20),
-
-    Padding(
-      padding: EdgeInsets.all(40),
-
-      child: Column(
-        children: <Widget>[
-          Container(
-        child: Text(
-        obj.name,
-        style: TextStyle(
-          color: Colors.grey,
-          fontSize: 25
-        ),
-        ),
-      ),
-
-      Container(
-        child: Text(
-          obj.occupation,
-           style: TextStyle(
-          color: Colors.grey,
-          fontSize: 25
-        ),
-        ),
-      ),
-
-
-     
-        ],
-      )
-
-      
-    ),
-
-    Expanded(
-      child: SingleChildScrollView(
-        child: Container(
-          margin: EdgeInsets.all(10),
-          child: Text(
-            obj.jobDescription,
-            style: TextStyle(
-              color: Colors.grey,
-              fontSize: 20
-            ),
-          ),
-        ),
-      ),
-    )
             
-          ],
+            );
+          }),
+    );
+  }
+}
+
+class BottomSheet extends StatefulWidget {
+  @override
+  _BottomSheetState createState() => _BottomSheetState();
+}
+
+class _BottomSheetState extends State<BottomSheet>
+    with SingleTickerProviderStateMixin {
+  AnimationController controller;
+  Animation animation;
+  double topSheet = 271.0;
+  double minSheet = 100.0;
+
+  @override
+  void initState() {
+    controller =
+        AnimationController(duration: Duration(seconds: 1), vsync: this);
+    animation = Tween<double>(begin: topSheet, end: minSheet).animate(
+        CurvedAnimation(
+            parent: controller,
+            curve: Curves.easeIn,
+            reverseCurve: Curves.easeIn));
+    super.initState();
+  }
+
+  forward() {
+    controller.forward();
+    stateBloc.toggleAnimationStatus();
+  }
+
+  reverse() {
+    controller.reverse();
+    stateBloc.toggleAnimationStatus();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      top: animation.value,
+      child: GestureDetector(
+        onTap: () {
+          controller.isDismissed ?  forward() : reverse();
+        },
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          color: Colors.green,
+          child: Column(
+            children: <Widget>[
+              Container(
+                height: 2,
+                width: 250,
+                color: Colors.grey,
+              )
+            ],
+          ),
         ),
       ),
     );

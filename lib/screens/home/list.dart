@@ -19,7 +19,7 @@ class _UserListState extends State<UserList> {
        });
 
     return Container(
-      height: 300,
+      height: 250,
       child: ListView.builder(
       scrollDirection: Axis.horizontal,
       itemCount: userData.length,
@@ -29,14 +29,12 @@ class _UserListState extends State<UserList> {
           children: <Widget>[
             GestureDetector(
               onTap: (){
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => Details(image: "assets/images/employee.jpg", obj: obj)
-                    ));
+                    
               },
 
               child: Container(
-                height: 300,
-                width: 250,
+                width: 150,
+                height: 250,
                 margin: EdgeInsets.all(5),
                 child: Hero(
                 tag: 'tag'+index.toString(),

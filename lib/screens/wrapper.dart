@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:user_crud/models/user.dart';
 import 'package:user_crud/screens/authentications/authentication.dart';
-import 'package:user_crud/screens/home/home.dart';
-import 'package:user_crud/screens/home/managers.dart';
+import 'package:user_crud/screens/home/custom_drawer.dart';
 
 
 class Wrapper extends StatefulWidget {
@@ -20,7 +19,7 @@ class _WrapperState extends State<Wrapper> {
     if(user == null){
       return Authentication();
     }else{
-      return Home();
+      return CustomDrawer();
     }
   }
 }

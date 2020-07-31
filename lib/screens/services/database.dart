@@ -11,11 +11,12 @@ class DatabaseServices{
 
    CollectionReference collection = Firestore.instance.collection("users");
 
-//update data
-      Future update(String name, String occupation, String jobDecription)async{
+
+      Future update(String uid,String name, String occupation, String jobDecription)async{
         
         collection.document(uid).setData(
           {
+            "uid":uid,
             "name": name,
             "occupation": occupation,
             "jobDescription": jobDecription
@@ -24,22 +25,12 @@ class DatabaseServices{
       }
 
 
-      //update data
-      Future theUpdate(String name, String occupation, String jobDescription)async{
-        
-        collection.document(uid).updateData(
-          {
-            "name": name,
-            "occupation": occupation,
-            "jobDescription": jobDescription
-          }
-        );
-      }
 
-//user data from snapshot
+
 List<UserData>  _userFromSnapShot(QuerySnapshot snapshot){
   return snapshot.documents.map((doc){
       return UserData(
+        uid: doc.data['uid'] ?? 'uid',
         name: doc.data['name'] ?? 'name',
         occupation: doc.data['occupation'] ?? 'occupation',
         jobDescription: doc.data['jobDescription'] ?? 'jobDescription'
@@ -53,7 +44,7 @@ Stream<List<UserData>>  get userData{
 }
 
 
-//get user data
+
 UserData _userDataStream(DocumentSnapshot snapshot){
   return UserData(
     name: snapshot.data['name'],

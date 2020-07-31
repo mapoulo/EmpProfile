@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:user_crud/models/user.dart';
 import 'package:user_crud/models/userdata.dart';
@@ -116,10 +115,10 @@ mainAxisAlignment: MainAxisAlignment.spaceBetween,
               child: FlatButton(
                 onPressed: ()async{
                 
-                if(_formKey.currentState.validate()){
-                   await DatabaseServices(uid: user.userId).theUpdate(name ?? data.name, occupation ?? data.occupation, jobDescription ?? jobDescription);
-                   Navigator.pop(context);
-                }
+                // if(_formKey.currentState.validate()){
+                //    await DatabaseServices(uid: user.userId).update(name ?? data.name, occupation ?? data.occupation, jobDescription ?? jobDescription);
+                //    Navigator.pop(context);
+                // }
 
                 },
 

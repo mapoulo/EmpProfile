@@ -40,7 +40,7 @@ class AuthSerices{
 
         FirebaseUser user = result.user;
 
-       await DatabaseServices(uid: user.uid).update("Name", "Occupation", "N/A");
+       await DatabaseServices(uid: user.uid).update(user.uid,"Name", "Occupation", "N/A");
 
         return _userFromFirebase(user);
 
@@ -59,3 +59,5 @@ class AuthSerices{
 
 
 }
+
+final myAuth = AuthSerices();

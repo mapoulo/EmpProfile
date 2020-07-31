@@ -31,7 +31,7 @@ class _RegisterState extends State<Register> {
       body: Column(
         children: <Widget>[
           Container(
-            height: 400,
+            height: 250,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               image: DecorationImage(
@@ -89,7 +89,7 @@ class _RegisterState extends State<Register> {
           ),
 
           Padding(
-            padding: EdgeInsets.all(40),
+           padding: EdgeInsets.all(20),
 
             
 
@@ -99,6 +99,8 @@ class _RegisterState extends State<Register> {
                     children: <Widget>[
 
                       Container(
+                         width: 250,
+                        height: 40,
                         padding: EdgeInsets.only(left:10),
                         decoration: BoxDecoration(
                           color: Colors.white,
@@ -129,6 +131,8 @@ class _RegisterState extends State<Register> {
 
                       
                       Container(
+                         width: 250,
+                        height: 40,
                         padding: EdgeInsets.only(left:10),
                         decoration: BoxDecoration(
                           color: Colors.white,
@@ -156,7 +160,7 @@ class _RegisterState extends State<Register> {
                         ),
                       ),
 
-                      SizedBox(height: 60),
+                        SizedBox(height: 35),
 
                    
                       FlatButton(
@@ -180,10 +184,10 @@ class _RegisterState extends State<Register> {
                          child: ClayContainer(
 
                            color: Colors.grey[300],
-                              height: 50,
+                              height: 30,
                               width: 150,
                               borderRadius: 50,
-                             child: Center(child: ClayText("Register", emboss: true, size: 40)),
+                             child: Center(child: ClayText("Register", emboss: true, size: 20)),
 
                          )
                          ),
