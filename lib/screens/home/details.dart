@@ -22,11 +22,13 @@ class TheImage extends StatefulWidget {
 class _TheImageState extends State<TheImage>
     with SingleTickerProviderStateMixin {
   AnimationController controller;
+  Animation animation;
 
   @override
   void initState() {
     controller =
         AnimationController(duration: Duration(seconds: 2), vsync: this);
+        animation = Tween<double>(begin: 1.0, end: 1.0).animate(CurvedAnimation(parent: controller, curve: Curves.easeIn, reverseCurve: Curves.easeIn));
     super.initState();
   }
 
@@ -42,19 +44,18 @@ class _TheImageState extends State<TheImage>
   Widget build(BuildContext context) {
     return Positioned(
       top: 0,
-          child: StreamBuilder(
+      child: StreamBuilder(
           initialData: theProvider.isAnimating,
+          stream: stateBloc.animationStatus,
           builder: (context, snapshot) {
             snapshot.data ? forward() : reverse();
             return ScaleTransition(
               scale: controller,
-             
-                child: Container(
-                  height: 270,
-                  width: MediaQuery.of(context).size.width,
-                  color: Colors.yellow,
-                ),
-            
+              child: Container(
+                height: 270,
+                width: MediaQuery.of(context).size.width,
+                color: Colors.yellow,
+              ),
             );
           }),
     );
@@ -81,7 +82,11 @@ class _BottomSheetState extends State<BottomSheet>
         CurvedAnimation(
             parent: controller,
             curve: Curves.easeIn,
-            reverseCurve: Curves.easeIn));
+            reverseCurve: Curves.easeIn))..addListener(() {
+             setState(() {
+               
+             });              
+            });
     super.initState();
   }
 
@@ -101,7 +106,15 @@ class _BottomSheetState extends State<BottomSheet>
       top: animation.value,
       child: GestureDetector(
         onTap: () {
-          controller.isDismissed ?  forward() : reverse();
+          controller.isDismissed ? forward() : reverse();
+        },
+
+        onVerticalDragEnd: (DragEndDetails dragEndDetails){
+          if(dragEndDetails.primaryVelocity < 0.0){
+               forward();
+          }else if(dragEndDetails.primaryVelocity > 0.0){
+              reverse();
+          }
         },
         child: Container(
           height: MediaQuery.of(context).size.height,

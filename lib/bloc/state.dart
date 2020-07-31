@@ -13,6 +13,7 @@ class StateBloc{
   void toggleAnimationStatus(){
     provider.toggleAnimatingValue();
     controller.sink.add(provider.isAnimating);
+    print("Method called");
   }
 
   void dispose(){
