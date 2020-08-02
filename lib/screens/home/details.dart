@@ -1,26 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:user_crud/bloc/provider_bloc.dart';
 import 'package:user_crud/bloc/state.dart';
+import 'package:user_crud/models/userdata.dart';
 
 class Details extends StatelessWidget {
+  
+  final flower;
+  Details({this.flower});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
-        children: <Widget>[TheImage(), BottomSheet()],
+        children: <Widget>[TheImage(flower: flower), BottomSheet()],
       ),
     );
   }
 }
 
 class TheImage extends StatefulWidget {
+   final flower;
+  TheImage({this.flower});
   @override
-  _TheImageState createState() => _TheImageState();
+  _TheImageState createState() => _TheImageState(flower: flower);
 }
 
 class _TheImageState extends State<TheImage>
     with SingleTickerProviderStateMixin {
+
+      final flower;
+      _TheImageState({this.flower});
   AnimationController controller;
   Animation animation;
 
@@ -28,7 +38,8 @@ class _TheImageState extends State<TheImage>
   void initState() {
     controller =
         AnimationController(duration: Duration(seconds: 2), vsync: this);
-        animation = Tween<double>(begin: 1.0, end: 1.0).animate(CurvedAnimation(parent: controller, curve: Curves.easeIn, reverseCurve: Curves.easeIn));
+    animation = Tween<double>(begin: 1.0, end: 1.0).animate(CurvedAnimation(
+        parent: controller, curve: Curves.easeIn, reverseCurve: Curves.easeIn));
     super.initState();
   }
 
@@ -51,11 +62,18 @@ class _TheImageState extends State<TheImage>
             snapshot.data ? forward() : reverse();
             return ScaleTransition(
               scale: controller,
-              child: Container(
+              child:Hero(
+                tag: "image",
+                child:  Container(
                 height: 270,
                 width: MediaQuery.of(context).size.width,
-                color: Colors.yellow,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(flower.flowerName)
+                    )
+                ),
               ),
+              )
             );
           }),
     );
@@ -82,11 +100,11 @@ class _BottomSheetState extends State<BottomSheet>
         CurvedAnimation(
             parent: controller,
             curve: Curves.easeIn,
-            reverseCurve: Curves.easeIn))..addListener(() {
-             setState(() {
-               
-             });              
-            });
+            reverseCurve: Curves.easeIn))
+      ..addListener(() {
+        setState(() {});
+      });
+
     super.initState();
   }
 
@@ -108,12 +126,11 @@ class _BottomSheetState extends State<BottomSheet>
         onTap: () {
           controller.isDismissed ? forward() : reverse();
         },
-
-        onVerticalDragEnd: (DragEndDetails dragEndDetails){
-          if(dragEndDetails.primaryVelocity < 0.0){
-               forward();
-          }else if(dragEndDetails.primaryVelocity > 0.0){
-              reverse();
+        onVerticalDragEnd: (DragEndDetails dragEndDetails) {
+          if (dragEndDetails.primaryVelocity < 0.0) {
+            forward();
+          } else if (dragEndDetails.primaryVelocity > 0.0) {
+            reverse();
           }
         },
         child: Container(

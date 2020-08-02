@@ -10,6 +10,12 @@ class UserData {
   UserData({this.name, this.uid,this.occupation, this.jobDescription});
 }
 
+class Flowers{
+
+  final String flowerName;
+  Flowers({this.flowerName});
+}
+
 
 
 

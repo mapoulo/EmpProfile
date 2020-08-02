@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:user_crud/models/userdata.dart';
 import 'package:user_crud/screens/home/details.dart';
 
 class BottomPart extends StatefulWidget {
@@ -9,6 +11,12 @@ class BottomPart extends StatefulWidget {
 class _BottomPartState extends State<BottomPart> {
   @override
   Widget build(BuildContext context) {
+    
+    final flowers = Provider.of<List<Flowers>>(context) ?? [];
+    flowers.forEach((element) {
+      print(element.flowerName+" My flower name");
+     });
+    
     return Expanded(
         child: Container(
       height: MediaQuery.of(context).size.height,
@@ -31,7 +39,7 @@ class _BottomPartState extends State<BottomPart> {
               width: MediaQuery.of(context).size.width,
               child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: 10,
+                  itemCount: flowers.length,
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () {
@@ -46,6 +54,13 @@ class _BottomPartState extends State<BottomPart> {
                         decoration: BoxDecoration(
                             color: Colors.black,
                             borderRadius: BorderRadius.circular(20)),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Hero(
+                                tag: "image",
+                                child: Image.network(flowers[index].flowerName),
+                              ),
+                            ),
                       ),
                     );
                   }),
@@ -53,6 +68,7 @@ class _BottomPartState extends State<BottomPart> {
           )
         ],
       ),
-    ));
+    )
+    );
   }
 }
