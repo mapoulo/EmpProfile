@@ -44,21 +44,21 @@ class _BottomPartState extends State<BottomPart> {
                     return GestureDetector(
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => Details(),
+                          builder: (context) => Details(flower: flowers[index]),
                         ));
                       },
                       child: Container(
-                        margin: EdgeInsets.only(left: 5, bottom: 5),
+                        margin: EdgeInsets.only(left: 5, bottom: 10),
                         height: MediaQuery.of(context).size.height,
                         width: 140,
                         decoration: BoxDecoration(
-                            color: Colors.black,
+                            color: Colors.grey,
                             borderRadius: BorderRadius.circular(20)),
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(20),
                               child: Hero(
-                                tag: "image",
-                                child: Image.network(flowers[index].flowerName),
+                                tag: "image"+index.toString(),
+                                child: Image.network(flowers[index].flowerName, fit: BoxFit.fitHeight,),
                               ),
                             ),
                       ),

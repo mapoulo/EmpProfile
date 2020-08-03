@@ -4,7 +4,6 @@ import 'package:user_crud/bloc/state.dart';
 import 'package:user_crud/models/userdata.dart';
 
 class Details extends StatelessWidget {
-  
   final flower;
   Details({this.flower});
 
@@ -20,7 +19,7 @@ class Details extends StatelessWidget {
 }
 
 class TheImage extends StatefulWidget {
-   final flower;
+  final flower;
   TheImage({this.flower});
   @override
   _TheImageState createState() => _TheImageState(flower: flower);
@@ -28,9 +27,8 @@ class TheImage extends StatefulWidget {
 
 class _TheImageState extends State<TheImage>
     with SingleTickerProviderStateMixin {
-
-      final flower;
-      _TheImageState({this.flower});
+  final flower;
+  _TheImageState({this.flower});
   AnimationController controller;
   Animation animation;
 
@@ -61,20 +59,23 @@ class _TheImageState extends State<TheImage>
           builder: (context, snapshot) {
             snapshot.data ? forward() : reverse();
             return ScaleTransition(
-              scale: controller,
-              child:Hero(
-                tag: "image",
-                child:  Container(
-                height: 270,
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(flower.flowerName)
-                    )
-                ),
-              ),
-              )
-            );
+                scale: controller,
+                child: Container(
+                        height: MediaQuery.of(context).size.height,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            color: Colors.grey,
+                            borderRadius: BorderRadius.circular(20)),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: Hero(
+                                tag: "image",
+                                child: Image.network(flower.flowerName, fit: BoxFit.contain, height: MediaQuery.of(context).size.height,),
+                              ),
+                            ),
+                      )
+                    
+                    );
           }),
     );
   }

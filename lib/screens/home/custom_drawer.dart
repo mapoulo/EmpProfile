@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:user_crud/models/userdata.dart';
 import 'package:user_crud/screens/authentications/login.dart';
 import 'package:user_crud/screens/home/home.dart';
+import 'package:user_crud/screens/home/profile.dart';
 import 'package:user_crud/screens/services/auth.dart';
 import 'package:user_crud/screens/services/database.dart';
 
@@ -76,12 +77,14 @@ class _CustomDrawerState extends State<CustomDrawer>
                 ]),
               ),
             ),
-            // ),
+          
 
             SizedBox(height: 40),
             GestureDetector(
               onTap: () {
-
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => Profile(),
+                  ));
               },
               child: Container(
                 child: Row(
