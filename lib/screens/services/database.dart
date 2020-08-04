@@ -13,12 +13,13 @@ class DatabaseServices {
       Firestore.instance.collection("flowers");
 
   Future update(
-      String uid, String name, String occupation, String jobDecription) async {
+      String uid, String name, String image, String occupation, String jobDecription) async {
     collection.document(uid).setData({
       "uid": uid,
       "name": name,
       "occupation": occupation,
-      "jobDescription": jobDecription
+      "jobDescription": jobDecription,
+      "image": name
     });
   }
 
@@ -42,6 +43,7 @@ class DatabaseServices {
       return UserData(
           uid: doc.data['uid'] ?? 'uid',
           name: doc.data['name'] ?? 'name',
+          image: doc.data['image'] ?? "",
           occupation: doc.data['occupation'] ?? 'occupation',
           jobDescription: doc.data['jobDescription'] ?? 'jobDescription');
     }).toList();
@@ -54,6 +56,7 @@ class DatabaseServices {
   UserData _userDataStream(DocumentSnapshot snapshot) {
     return UserData(
         name: snapshot.data['name'],
+        image: snapshot.data['image'],
         occupation: snapshot.data['occupation'],
         jobDescription: snapshot.data['jobDescription']);
   }

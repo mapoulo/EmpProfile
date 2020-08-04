@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:user_crud/models/officePictures.dart';
 import 'package:user_crud/models/user.dart';
 import 'package:user_crud/screens/services/database.dart';
 
@@ -40,7 +41,7 @@ class AuthSerices{
 
         FirebaseUser user = result.user;
 
-       await DatabaseServices(uid: user.uid).update(user.uid,"Name", "Occupation", "N/A");
+       await DatabaseServices(uid: user.uid).update(user.uid,"Name","", "Occupation", "N/A");
 
         return _userFromFirebase(user);
 

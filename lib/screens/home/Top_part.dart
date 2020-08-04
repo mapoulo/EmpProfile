@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:user_crud/models/user.dart';
 import 'package:user_crud/models/userdata.dart';
-import 'package:user_crud/screens/home/bottom_part.dart';
 
 class TopPart extends StatefulWidget {
   @override
@@ -16,21 +15,17 @@ class _TopPartState extends State<TopPart> {
   @override
   Widget build(BuildContext context) {
     final listOfUserFromFirebase = Provider.of<List<UserData>>(context) ?? [];
-    final loggedInUserUid = Provider.of<User>(context);
+    final loggedInUser = Provider.of<User>(context);
 
     listOfUserFromFirebase.forEach((element) {
-      if (element.uid == loggedInUserUid.userId) {
+      if (element.uid == loggedInUser.userId) {
         loggeInUserData = element;
         dataIsLoading = false;
         print(element.name);
       }
     });
 
-    return StreamProvider.value(
-      initialData: null,
-      value: null,
-      builder: (context, snapshot) {
-        return SafeArea(
+    return  SafeArea(
           child: Column(
             children: <Widget>[
               Container(
@@ -107,7 +102,7 @@ class _TopPartState extends State<TopPart> {
             ],
           )
         );
-      },
-    );
+     
+    
   }
 }

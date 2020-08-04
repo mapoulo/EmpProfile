@@ -13,10 +13,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<List<UserData>>.value(
-      initialData: null,
-      value: DatabaseServices().userData,
-      child: Scaffold(
+    return  Scaffold(
         backgroundColor: Color.fromARGB(255,225, 225, 231),
         body: Column(
           children: <Widget>[
@@ -24,7 +21,7 @@ class _HomeState extends State<Home> {
             BottomPart()
           ],
         )
-      ),
-    );
+      );
+   
   }
 }
