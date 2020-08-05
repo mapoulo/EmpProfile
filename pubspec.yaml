@@ -38,6 +38,9 @@ dependencies:
   clay_containers: ^0.2.2
   firebase_core: ^0.4.5
   image_picker: ^0.6.7+4  
+  shimmer:
+  cached_network_image: ^2.2.0+1
+  modal_bottom_sheet: ^0.2.0+1
 
 dev_dependencies:
   flutter_test:
