@@ -11,6 +11,8 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:user_crud/models/user.dart';
 import 'package:user_crud/models/userdata.dart';
+import 'package:user_crud/screens/services/database.dart';
+import 'package:user_crud/shared/decotaion.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -21,20 +23,17 @@ class _ProfileState extends State<Profile> {
   final double maxSlide = 120.0;
   var loggeInUserData;
   bool dataIsLoading = true;
+  List<UserData> listOfUserFromFirebase;
 
   @override
   Widget build(BuildContext context) {
-    final listOfUserFromFirebase = Provider.of<List<UserData>>(context) ?? [];
+    
     final loggedInUser = Provider.of<User>(context);
-
-    listOfUserFromFirebase.forEach((element) {
-      if (element.uid == loggedInUser.userId) {
-        loggeInUserData = element;
-        dataIsLoading = false;
-      }
-    });
-
     String myImage;
+    final _formKey = GlobalKey<FormState>();
+    String editedName;
+
+    
 
     Future<void> _addPathToDatabase(String text) async {
       try {
@@ -68,18 +67,75 @@ class _ProfileState extends State<Profile> {
       uploadImage(image);
     }
 
-    _bottomShhet(){
-    return showMaterialModalBottomSheet(
-  context: context,
-  builder: (context, scrollController) => Container(
-    height: 400,
-    width: MediaQuery.of(context).size.width,
-    color: Colors.yellow,
-  ),
-);
+    _bottomShhet() {
+      return showMaterialModalBottomSheet(
+        context: context,
+        builder: (context, scrollController) => Container(
+            height: 200,
+            width: MediaQuery.of(context).size.width * 0.5,
+            decoration: BoxDecoration(
+              color: Color.fromARGB(255, 142, 145, 143),
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10))),
+            child: Padding(
+              padding: EdgeInsets.all(10),
+                          child: Form(
+                key: _formKey,
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(height: 10),
+                    Center(
+                        child: Text(
+                      "Edit name",
+                      style: TextStyle(color: Colors.white),
+                    )),
+                    SizedBox(height: 10),
+                    TextFormField(
+                      initialValue: loggeInUserData.name,
+                      validator: (val) =>
+                          val.isEmpty ? "Please enter your name" : null,
+                      decoration: decorator.copyWith(hintText: loggeInUserData.name,),
+                      onChanged: (val) {
+                        setState(() {
+                          editedName = val;
+                        });
+                      },
+                    ),
+                    SizedBox(height: 10),
+                    RaisedButton(
+                      onPressed: () async {
+                        await Firestore.instance
+                            .collection("users")
+                            .document(loggedInUser.userId)
+                            .updateData({"name": editedName});
+                      },
+                      child: Center(
+                        child: Text("Save", style: TextStyle(
+                          color: Colors.grey
+                        ),),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            )),
+      );
     }
 
-    return Scaffold(
+    return StreamBuilder<List<UserData>>(
+      initialData: null,
+      stream: DatabaseServices().userData,
+      builder: (context, snapshot){
+        listOfUserFromFirebase = snapshot.data;
+        listOfUserFromFirebase.forEach((element) {
+      if (element.uid == loggedInUser.userId) {
+        loggeInUserData = element;
+        dataIsLoading = false;
+      }
+    });
+  
+        return Scaffold(
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(5),
@@ -118,7 +174,6 @@ class _ProfileState extends State<Profile> {
                                 child: Image.network(
                                   loggeInUserData.image,
                                   fit: BoxFit.fill,
-                                
                                 ),
                               ),
                             ),
@@ -179,5 +234,6 @@ class _ProfileState extends State<Profile> {
         ),
       ),
     );
+      });
   }
 }

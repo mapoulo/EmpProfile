@@ -31,7 +31,7 @@ class _TopPartState extends State<TopPart> {
               Container(
             height: 260,
             width: MediaQuery.of(context).size.width,
-            color: Color.fromARGB(255, 225, 225, 231),
+            color:  Color.fromARGB(255, 174, 179, 175),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[

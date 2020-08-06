@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 
-const decoration = InputDecoration(
+const decorator = InputDecoration(
 
   fillColor: Colors.white,
   filled: true,

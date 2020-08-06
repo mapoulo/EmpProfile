@@ -20,7 +20,7 @@ class _CustomDrawerState extends State<CustomDrawer>
   @override
   void initState() {
     controller =
-        AnimationController(duration: Duration(seconds: 2), vsync: this);
+        AnimationController(duration: Duration(milliseconds: 250), vsync: this);
     super.initState();
   }
 
@@ -45,7 +45,7 @@ class _CustomDrawerState extends State<CustomDrawer>
       if (element.uid == loggedInUser.userId) {
         loggeInUserData = element;
         dataIsLoading = false;
-        print(element.name);
+        print(element.name+ "  data in CustomDrawer");
       }
     });
 
@@ -63,7 +63,10 @@ class _CustomDrawerState extends State<CustomDrawer>
               height: 70,
               width: 70,
               decoration: BoxDecoration(
-                  color: Colors.black, borderRadius: BorderRadius.circular(20)),
+                  color: Colors.grey, borderRadius: BorderRadius.circular(20)),
+                  child:dataIsLoading ? Text("") : ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.network(loggeInUserData.image, fit: BoxFit.fill,)),
             ),
             SizedBox(height: 20),
             Container(
@@ -156,13 +159,10 @@ class _CustomDrawerState extends State<CustomDrawer>
         ),
       ),
     );
+      
 
     var childContainer = Home();
 
-    return StreamProvider<List<Flowers>>.value(
-        initialData: null,
-        value: DatabaseServices().flowers_stream,
-        builder: (context, snapshot) {
           return Scaffold(
             body: GestureDetector(
                 onTap: () {
@@ -194,6 +194,7 @@ class _CustomDrawerState extends State<CustomDrawer>
                       );
                     })),
           );
-        });
+        
+        
   }
 }

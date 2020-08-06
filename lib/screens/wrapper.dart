@@ -4,7 +4,6 @@ import 'package:user_crud/models/user.dart';
 import 'package:user_crud/models/userdata.dart';
 import 'package:user_crud/screens/authentications/authentication.dart';
 import 'package:user_crud/screens/home/custom_drawer.dart';
-import 'package:user_crud/screens/home/profile.dart';
 import 'package:user_crud/screens/services/database.dart';
 
 class Wrapper extends StatefulWidget {
@@ -23,8 +22,7 @@ class _WrapperState extends State<Wrapper> {
         if (user == null) {
           return Authentication();
         } else {
-          // return CustomDrawer();
-          return Profile();
+          return CustomDrawer();
         }
       },
     );
